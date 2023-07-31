@@ -1,4 +1,5 @@
 from django.core.validators import MinValueValidator, MaxValueValidator
+from django.contrib.auth.models import AbstractUser
 from django.conf import settings
 from django.db import models
 
@@ -20,10 +21,15 @@ class Review(models.Model):
     time_created = models.DateTimeField(auto_now_add=True)
 
 
+class User(AbstractUser):
+
+    profile_photo = models.ImageField(verbose_name='Photo de profil')
+
+
 class UserFollows(models.Model):
     # Your UserFollows model definition goes here
-    user = models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='following')
-    followed_user = models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='followed_by')
+    user = models.ForeignKey(to=User, on_delete=models.CASCADE, related_name='following')
+    followed_user = models.ForeignKey(to=User, on_delete=models.CASCADE, related_name='followed_by')
 
     class Meta:
         # ensures we don't get multiple UserFollows instances
