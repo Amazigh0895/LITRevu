@@ -17,7 +17,8 @@ def login_page(request):
             if user is not None:
                 # Connecte our user if the authentication succeed
                 login(request, user)
-                message = f'Bonjour, {user.username}! vous etes connecté'
+                #message = f'Bonjour, {user.username}! vous etes connecté'
+                return redirect('home')
             else:
                 # Get error message if our autheticaton doesnt succeed
                 message = " identifiants invalides"
