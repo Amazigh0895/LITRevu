@@ -26,7 +26,10 @@ urlpatterns = [
     path('', authentification.views.login_page, name='login-page'),
     path('logout/', authentification.views.logout_user, name='logout-user'),
     path('blog/home/', blog.views.home, name="home"),
-    path('signup/', authentification.views.sign_up, name="sign-up")
+    path('signup/', authentification.views.sign_up, name="sign-up"),
+    path('ask_ticket/', blog.views.ticket_view, name="ask-for-ticket"),
+    path('create_review/', blog.views.review_view, name="create-review")
+
 ]
 if settings.DEBUG:
     urlpatterns += static(
