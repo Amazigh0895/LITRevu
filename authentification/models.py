@@ -4,9 +4,18 @@ from django.conf import settings
 from django.db import models
 
 
+class User(AbstractUser):
+
+    profile_photo = models.ImageField(verbose_name='Photo de profil')
+
+
 class Ticket(models.Model):
     # Your Ticket model definition goes here
-    pass
+    title = models.CharField(max_length=128)
+    description = models.TextField(max_length=2048, blank=True)
+    user = models.ForeignKey(to=User, on_delete=models.CASCADE)
+    image = models.ImageField(null=True, blank=True)
+    time_created = models.DateTimeField(auto_now_add=True)
 
 
 class Review(models.Model):
@@ -19,11 +28,6 @@ class Review(models.Model):
     user = models.ForeignKey(
         to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     time_created = models.DateTimeField(auto_now_add=True)
-
-
-class User(AbstractUser):
-
-    profile_photo = models.ImageField(verbose_name='Photo de profil')
 
 
 class UserFollows(models.Model):
