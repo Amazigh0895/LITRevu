@@ -1,0 +1,14 @@
+{% extends 'blog/master.html' %}
+{% block title %}Creer un ticket{% endblock title %}
+{% block content %}
+<div class="d-grid gap-2 col-6 mx-auto">
+    <form method="post" enctype="multipart/form-data">
+        {{ formTicket.as_p }}
+        {{ formReview.as_p }}
+        {% csrf_token %}
+        <button type="submit" class="btn btn-info">Publier</button>
+        <a class="btn btn-danger" href="{% url 'home' %}" role="button">Annuler</a>
+    </form>
+</div>
+{% endblock %}
+   
