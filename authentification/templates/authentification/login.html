@@ -2,10 +2,15 @@
 {% block title %}Page de connexion{% endblock title %}
 {% block content %}
 <p> {{ message }}</p>
+<div class="row g-3 align-items-center">
+    <div class="col-auto">
 <form action="" method="post">
     {% csrf_token  %}
     {{ from.as_p }}
-    <button type="submit"> Se connecter</button>
+    <button type="submit" class="btn btn-primary"> Se connecter</button>
+    <p>Pas encore membre?<button type="button" class="btn btn-link"><a class="link-opacity-75" href="{% url 'sign-up' %}">S'inscrire</a></button></p>
 </form>
+</div>
+</div>
 {% endblock %}
    
