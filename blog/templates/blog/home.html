@@ -1,6 +1,10 @@
 {% extends 'blog/master.html' %}
 {% block title %}Mon blog{% endblock title %}
 {% block content %}
-<p>Vous etes connecté</p>
+<h1></h1>
+<div class="d-grid gap-2 col-6 mx-auto">
+    <a class="btn btn-primary" href="{% url 'ask-for-ticket' %}" role="button">Demander une critique</a>
+    <a class="btn btn-primary" href="{% url 'create-review' %}" role="button">Creer une critique</a>
+</div>
 {% endblock %}
    
