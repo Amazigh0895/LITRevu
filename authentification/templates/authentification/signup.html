@@ -1,0 +1,15 @@
+{% extends 'authentification/master.html' %}
+{% block title %}Page d'inscription{% endblock title %}
+{% block content %}
+<div class="row g-3 align-items-center">
+<div class="col-auto">
+<form action="" method="post" >
+    {% csrf_token  %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary"> S'inscrire</button>
+    <button type="button" class="btn btn-link"><a class="link-opacity-75" href="{% url 'login-page' %}">J'ai déja un compte</a></button>
+</form>
+</div>
+</div>
+{% endblock %}
+   
