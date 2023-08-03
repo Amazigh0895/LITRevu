@@ -1,22 +1,40 @@
 {% load static %}
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{% static 'blog/styles.css' %}"/>
     <title>{% block title %}{% endblock title %}</title>
+    {% load bootstrap5 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
 </head>
 <body>
+    <nav class="navbar navbar-expand-lg bg-black">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#">LITReview</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav">
+              <a class="nav-link active" aria-current="page" href="#">Flux</a>
+              <a class="nav-link" href="#">Posts</a>
+              <a class="nav-link" href="#">Abonnements</a>
+              {% if user.is_authenticated %}
+              <a class="nav-link " href="{% url 'logout-user' %}">Se déconnecter</a>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </nav>
     
-    {% block content %}{% endblock %}
-
-    {% if user.is_authenticated %}
-    <p>Vous etes connecté en tant que {{ request.user}} .<a href="{% url 'logout-user' %}"> Se deconnecter</a></p>
+   
+      {% block content %}
+      {% endblock %}
     
-         
-    {% endif %}
+    
     
 </body>
 </html>
+
