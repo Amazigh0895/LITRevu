@@ -130,4 +130,4 @@ AUTH_USER_MODEL = 'authentification.User'
 LOGIN_URL = "login-page"
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR.join_path('media/')
+MEDIA_ROOT = 'media/'
