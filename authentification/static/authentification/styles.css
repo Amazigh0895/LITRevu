@@ -1,5 +1,7 @@
 body{
-    background-color: #FF3CAC;
-    background-image: linear-gradient(225deg, #FF3CAC 0%, #784BA0 50%, #2B86C5 100%);
+    background: black;
 }
-
+.container-md{
+    background-color: #FF3CAC;
+    background-image: linear-gradient(271deg, #FF3CAC 0%, #784BA0 50%, #2B86C5 100%);
+}
