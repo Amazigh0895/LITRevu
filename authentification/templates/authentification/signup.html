@@ -2,8 +2,9 @@
 {% block title %}Page d'inscription{% endblock title %}
 {% block content %}
 <div class="d-grid gap-2 col-6 mx-auto">
-        {% csrf_token  %}
+    <form action="" method="post">
         {{ form.as_p }}
+        {% csrf_token %}
         <button type="submit" class="btn btn-primary"> S'inscrire</button>
         <button type="button" class="btn btn-link"><a class="link-opacity-75" href="{% url 'login-page' %}">J'ai déja un compte</a></button>
     </form>
