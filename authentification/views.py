@@ -45,7 +45,6 @@ def logout_user(request):
 def sign_up(request):
     if request.user.is_authenticated:
         return redirect('home')
-
     else:
         form = forms.SignUpForm()
         if request.method == 'POST':
