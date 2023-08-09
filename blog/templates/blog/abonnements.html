@@ -1,0 +1,35 @@
+{% extends 'blog/master.html' %}
+{% block title %}abonnement{% endblock title %}
+{% block content %}
+
+<table class="table">
+    <thead>
+      <tr>
+        <th scope="col" 
+        style="color: black;"
+    >Abonnements</th>
+      </tr>
+    </thead>
+    <tbody>
+        {% for user in userFollowing %}
+        <tr>
+            <td style="color: greenYellow;">{{ user.followed_user}}</td>
+            <td><a  href="{% url 'home' %}" class="btn btn-outline-light" role="button">Désabonner</a></td>
+        </tr>
+        {% endfor %}   
+    </tbody>
+    <thead>
+        <tr>
+          <th scope="col" style="color: black;">Abonnés</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for user in userFollowedBy %}
+        <tr>
+            <td style="color: greenYellow;">{{ user.user}}</td>
+        </tr>
+        {% endfor %}   
+    </tbody>
+  </table>
+
+{% endblock %}
