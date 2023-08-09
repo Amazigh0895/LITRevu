@@ -1,0 +1,22 @@
+{% extends 'blog/master.html' %}
+{% block title %}Mise a jour{% endblock title %}
+{% block content %}
+<div class="d-grid gap-2 col-6 mx-auto">
+    <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="card text-center" style="max-width: 540px; background:#fff9fe4d;" >
+        <div class="card-body --bs-primary-border-subtle">
+            {{ form.as_p }}
+        </div>
+        <div class="card-header">
+            <p class="file-upload"><img src="{{ ticketFile }} " style="
+                width: 200px;">
+        </div>
+        <div class="card-footer text-body-secondary">
+        <button type="submit" class="btn btn-info">Mettre a jour</button>
+        <a class="btn btn-danger" href="{% url 'home' %}" role="button">Annuler</a>
+        </div>
+    </div>
+</form>
+</div>
+{% endblock %}
