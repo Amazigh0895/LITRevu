@@ -28,7 +28,14 @@ urlpatterns = [
     path('blog/home/', blog.views.home, name="home"),
     path('signup/', authentification.views.sign_up, name="sign-up"),
     path('ask_ticket/', blog.views.ticket_view, name="ask-for-ticket"),
-    path('create_review/', blog.views.review_view, name="create-review")
+    path('create_review/', blog.views.review_view, name="create-review"),
+    path('posts/', blog.views.posts_view, name="posts-view"),
+    path('blog/ticket/<int:id>/update/', blog.views.ticket_update, name="ticket-update"),
+    path('blog/ticket/<int:id>/delete/', blog.views.ticket_delete, name='ticket-delete'),
+    path('blog/review/<int:id>/update/', blog.views.review_update, name="review-update"),
+    path('blog/review/<int:id>/delete/', blog.views.review_delete, name='review-delete'),
+    path('blog/abonnements/', blog.views.abonnements_view, name="abonnements-view"),
+
 
 ]
 if settings.DEBUG:
