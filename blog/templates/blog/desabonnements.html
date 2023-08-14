@@ -1,0 +1,20 @@
+{% extends 'blog/master.html' %}
+{% block title %}desabonnement{% endblock title %}
+{% block content %}
+<div class="d-grid gap-2 col-6 mx-auto" style="
+margin-top: 100px;
+">
+    <form method="post">
+    {% csrf_token %}
+    <div class="card text-center" style="max-width: 540px; background:#fff9fe4d;" >
+        <div class="card-body --bs-primary-border-subtle">
+            <p class="card-text">Vous voulez vraiment vous désabonner de {{ userFollowing.followed_user }} ?</p>
+        </div>
+        <div class="card-footer text-body-secondary">
+        <button type="submit" class="btn btn-danger"> Se desabonner</button>
+        <a class="btn btn-info" href="{% url 'abonnements-view' %}" role="button">Annuler</a>
+        </div>
+    </div>
+</form>
+</div>
+{% endblock %}
