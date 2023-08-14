@@ -1,6 +1,8 @@
 {% extends 'authentification/master.html' %}
 {% block title %}Page d'inscription{% endblock title %}
 {% block content %}
+<p class="alert alert-primary" role="alert" style="padding:0;color: brown;width: 414px;
+margin: 23px; border: 0;" >{{ message }}</p>
 <div class="d-grid gap-2 col-6 mx-auto">
     <form action="" method="post">
         {{ form.as_p }}
