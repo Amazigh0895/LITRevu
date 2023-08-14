@@ -2,6 +2,27 @@
 {% block title %}abonnement{% endblock title %}
 {% block content %}
 
+<p class="alert alert-primary" role="alert" style="padding:0;color: brown;width: 414px;
+margin: 23px; border: 0;" >{{ message }}</p>
+
+<form action="" method="post" class="row g-3" style="
+margin-left: 500px;
+"> 
+  {% csrf_token %}
+  <div class="col-auto">
+    <label for="text2" class="visually-hidden">text</label>
+    {{ form.as_p }}
+  </div>
+  <div class="col-auto">
+    <button type="submit" class="btn btn-primary" style="margin-top: 23px;">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-plus-fill" viewBox="0 0 16 16">
+          <path d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"></path>
+          <path fill-rule="evenodd" d="M13.5 5a.5.5 0 0 1 .5.5V7h1.5a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0V8h-1.5a.5.5 0 0 1 0-1H13V5.5a.5.5 0 0 1 .5-.5z"></path>
+      </svg>
+    </button>
+
+  </div>
+</form>
 <table class="table">
     <thead>
       <tr>
@@ -14,7 +35,7 @@
         {% for user in userFollowing %}
         <tr>
             <td style="color: greenYellow;">{{ user.followed_user}}</td>
-            <td><a  href="{% url 'home' %}" class="btn btn-outline-light" role="button">Désabonner</a></td>
+            <td><a  href="{% url 'desabonnements-view' user.id %}" class="btn btn-outline-light" role="button">Désabonner</a></td>
         </tr>
         {% endfor %}   
     </tbody>
