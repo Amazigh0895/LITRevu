@@ -1,4 +1,5 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from authentification.models import Ticket, Review, UserFollows
 from . import forms
@@ -8,9 +9,20 @@ from . import forms
 
 @login_required
 def home(request):
-    # Import all tickets and reviews form database
-    reviews = Review.objects.all()
-    tickets = Ticket.objects.all().exclude(review__in=reviews)
+    user = request.user
+    reviews = []
+    tickets = []
+    userFollowing = UserFollows.objects.filter(user=user)
+    review = Review.objects.filter(user=user)
+    userReview = Review.objects.filter(user=user)
+    userTicket = Ticket.objects.filter(user=user).exclude(review__in=review)
+    reviews.append(userReview)
+    tickets.append(userTicket)
+    for element in userFollowing:
+        review = Review.objects.filter(user=element.followed_user)
+        ticket = Ticket.objects.filter(user=element.followed_user).exclude(review__in=review)
+        reviews.append(review)
+        tickets.append(ticket)
 
     context = {
         'tickets': tickets,
@@ -126,13 +138,79 @@ def review_view(request):
 }
     return render(request, 'blog/create_review.html', context=context)
 
+
+@login_required
+def review_response_view(request, id):
+    ticket = Ticket.objects.get(id=id)
+    if request.method == 'POST':
+        formReview = forms.ReviewForm(request.POST)
+        if formReview.is_valid():
+            review = formReview.save(commit=False)
+            review.user = request.user
+            review.ticket = ticket
+            review.save()
+            return redirect('home')
+    else:
+        formReview = forms.ReviewForm()          
+    context = {
+        'formReview': formReview,
+        'ticket': ticket,
+}
+    return render(request, 'blog/create_review_response.html', context=context)
+
 @login_required
 def abonnements_view(request):
     user = request.user
-    userFollowing = user.following.all()
-    userFollowedBy = user.followed_by.all()
+    userFollowing = UserFollows.objects.filter(user=user)
+    userFollowedBy = UserFollows.objects.filter(followed_user=user)
+    message = ""
+    dejaAbonné = False
+    if request.method == 'POST':
+        form = forms.FollowUsers(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            # Import model user
+            User = get_user_model()
+            userResults = User.objects.filter(username=username).first()  # Utilisez "first()" au lieu de "get()"
+            if userResults:
+                # check if user is followed yet
+                for element in userFollowing:
+                    if userResults == element.followed_user:
+                        dejaAbonné = True
+                # Check if the user is the authenticated user
+                if userResults == user:
+                    message = "On ne peut pas s'abonner a soit meme"
+                elif dejaAbonné:
+                    message = "Vous etes deja abonné a cet utlilisateur!"
+                else:
+                    userFollow = UserFollows()
+                    userFollow.user = user
+                    userFollow.followed_user = userResults
+                    userFollow.save()
+                    return redirect('abonnements-view')
+            else:
+                message = "l'utilisateur n'existe pas"
+
+        else:
+            message = "erreur de saisie!"
+    else:
+        form = forms.FollowUsers()
     context = {
+        'form': form,
+        'message': message,
         'userFollowing': userFollowing,
         'userFollowedBy': userFollowedBy,
     }
     return render(request, 'blog/abonnements.html', context=context)
+
+@login_required
+def desabonnements_view(request, id):
+    userFollowing = UserFollows.objects.get(id=id)
+    if request.method == 'POST':
+        userFollowing.delete()
+        return redirect('abonnements-view')
+
+    context = {
+        'userFollowing': userFollowing,
+    }
+    return render(request, 'blog/desabonnements.html', context=context)
