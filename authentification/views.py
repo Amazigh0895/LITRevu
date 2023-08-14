@@ -43,6 +43,7 @@ def logout_user(request):
 
 # Signup fonction
 def sign_up(request):
+    message = ""
     if request.user.is_authenticated:
         return redirect('home')
     else:
@@ -53,7 +54,12 @@ def sign_up(request):
                 user = form.save()
                 login(request, user)
                 return redirect('home')
+            else:
+                message = "Erreur de saisie !"
         else:
             form = forms.SignUpForm()
-        return render(request, 'authentification/signup.html',
-            {'form': form})
+        context = {
+            'form': form,
+            'message': message,
+        }    
+        return render(request, 'authentification/signup.html',context=context)
