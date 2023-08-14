@@ -1,0 +1,29 @@
+{% extends 'blog/master.html' %}
+{% block title %}Répondre à un ticket{% endblock title %}
+{% block content %}
+<div class="d-grid gap-2 col-6 mx-auto">
+    <p class="alert alert-primary" role="alert" style="padding:0;color: brown;width: 303px;margin: 23px;border: 0;margin-left: -326px;">Vous etes entrain de poster en reponse a :</p>
+    <div class="card text-center" style="max-width: 540px; background:#fff9fe4d;" >
+        <div class="card-header">
+        Demande de critique par {{ ticket.user }}
+        </div>
+        <div class="card-body --bs-primary-border-subtle">
+            <h5 class="card-title">{{ ticket.title }}</h5>
+            <p class="card-text">{{ ticket.description }}</p>
+            {% if ticket.image.url is not None %}
+                <img src="{{ ticket.image.url }}" class="card-img" style="max-width: 200px;"  alt="...">
+            {% endif %}
+        </div>
+        <div class="card-footer text-body-secondary">
+            updated at {{ ticket.time_created }} by {{ ticket.user }}
+        </div>
+    </div>
+    <form method="post" enctype="multipart/form-data">
+        {{ formReview.as_p }}
+        {% csrf_token %}
+        <button type="submit" class="btn btn-info">Publier</button>
+        <a class="btn btn-danger" href="{% url 'home' %}" role="button">Annuler</a>
+    </form>
+</div>
+{% endblock %}
+   
