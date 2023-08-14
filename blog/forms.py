@@ -25,3 +25,10 @@ class ReviewForm(forms.ModelForm):
             'headline': forms.TextInput(attrs={'class': 'form-control'}),
             'body': forms.Textarea(attrs={'class': 'form-control'}),
 }
+
+
+# Follow users from
+class FollowUsers(forms.Form):
+      username = forms.CharField(max_length=63, label="Nom d'utilisateur",
+                               widget=forms.TextInput(
+                                   attrs={'class': 'form-control'}))
