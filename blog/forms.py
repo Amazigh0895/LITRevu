@@ -1,5 +1,6 @@
 from django import forms
-from authentification.models import Ticket , Review
+from authentification.models import Ticket, Review
+
 
 # Ticket form class
 class TicketForm(forms.ModelForm):
@@ -11,8 +12,7 @@ class TicketForm(forms.ModelForm):
             'title': forms.TextInput(attrs={'class': 'form-control'}),
             'description': forms.Textarea(attrs={'class': 'form-control'}),
             'image': forms.FileInput(attrs={'class': 'form-control'}),
-
-}
+            }
 
 
 # Review form class
@@ -24,11 +24,11 @@ class ReviewForm(forms.ModelForm):
         widgets = {
             'headline': forms.TextInput(attrs={'class': 'form-control'}),
             'body': forms.Textarea(attrs={'class': 'form-control'}),
-}
+            }
 
 
 # Follow users from
 class FollowUsers(forms.Form):
-      username = forms.CharField(max_length=63, label="Nom d'utilisateur",
+    username = forms.CharField(max_length=63, label="Nom d'utilisateur",
                                widget=forms.TextInput(
                                    attrs={'class': 'form-control'}))

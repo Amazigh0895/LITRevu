@@ -13,7 +13,7 @@ class LoginForm(forms.Form):
                                    attrs={'class': 'form-control'}))
 
 
-# Class form inscription   
+# Class form inscription
 class SignUpForm(UserCreationForm):
     class Meta(UserCreationForm.Meta):
         model = get_user_model()
@@ -24,5 +24,4 @@ class SignUpForm(UserCreationForm):
             'email': forms.EmailInput(attrs={'class': 'form-control'}),
             'password1': forms.PasswordInput(attrs={'class': 'form-control'}),
             'password2': forms.PasswordInput(attrs={'class': 'form-control'}),
-
-}
+            }

@@ -7,10 +7,10 @@ from . import forms
 
 # Login page  function
 def login_page(request):
+    # Check if authenticated
     if request.user.is_authenticated:
         return redirect('home')
     else:
-
         form = forms.LoginForm()
         message = ""
         if request.method == 'POST':
@@ -21,16 +21,19 @@ def login_page(request):
                 if user is not None:
                     # Connecte our user if the authentication succeed
                     login(request, user)
-                    #message = f'Bonjour, {user.username}! vous etes connecté'
                     return redirect('home')
                 else:
                     # Get error message if our autheticaton doesnt succeed
                     message = " identifiants invalides"
         else:
             form = forms.LoginForm()
+
+        context = {
+            'from': form,
+            'message': message,
+        }
         # Send form and message to login.html  page
-        return render(request, 'authentification/login.html',
-                    context={'from': form, 'message': message})
+        return render(request, 'authentification/login.html', context=context)
 
 
 # Logout user function
@@ -61,5 +64,5 @@ def sign_up(request):
         context = {
             'form': form,
             'message': message,
-        }    
-        return render(request, 'authentification/signup.html',context=context)
+        }
+        return render(request, 'authentification/signup.html', context=context)

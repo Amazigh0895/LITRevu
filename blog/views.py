@@ -1,26 +1,32 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from authentification.models import Ticket, Review, UserFollows
 from . import forms
-
 # Create your views here.
 
 
+# Feed view
 @login_required
 def home(request):
+    # Get authenticated user
     user = request.user
+
     reviews = []
     tickets = []
+    # Get users following
     userFollowing = UserFollows.objects.filter(user=user)
+    # Get review user
     review = Review.objects.filter(user=user)
+
     userReview = Review.objects.filter(user=user)
     userTicket = Ticket.objects.filter(user=user).exclude(review__in=review)
     reviews.append(userReview)
     tickets.append(userTicket)
     for element in userFollowing:
         review = Review.objects.filter(user=element.followed_user)
-        ticket = Ticket.objects.filter(user=element.followed_user).exclude(review__in=review)
+        ticket = Ticket.objects.filter(user=element.followed_user).exclude(
+            review__in=review)
         reviews.append(review)
         tickets.append(ticket)
 
@@ -31,6 +37,7 @@ def home(request):
     return render(request, 'blog/home.html', context=context)
 
 
+# User posts view
 @login_required
 def posts_view(request):
     # Import  tickets and reviews form database by id
@@ -45,6 +52,7 @@ def posts_view(request):
     return render(request, 'blog/posts.html', context=context)
 
 
+# User ticket view
 @login_required
 def ticket_view(request):
     form = forms.TicketForm()
@@ -62,6 +70,7 @@ def ticket_view(request):
                   {"form": form})
 
 
+# Update ticket view
 @login_required
 def ticket_update(request, id):
     ticket = Ticket.objects.get(id=id)
@@ -81,6 +90,7 @@ def ticket_update(request, id):
     return render(request, 'blog/ticket_update.html', context=context)
 
 
+# Delete ticket view
 @login_required
 def ticket_delete(request, id):
     ticket = Ticket.objects.get(id=id)
@@ -89,6 +99,8 @@ def ticket_delete(request, id):
         return redirect('home')
     return render(request, 'blog/ticket_delete.html', {'ticket': ticket})
 
+
+# Delete review view
 @login_required
 def review_delete(request, id):
     review = Review.objects.get(id=id)
@@ -98,6 +110,7 @@ def review_delete(request, id):
     return render(request, 'blog/review_delete.html', {'review': review})
 
 
+# Update review view
 @login_required
 def review_update(request, id):
     review = Review.objects.get(id=id)
@@ -116,6 +129,8 @@ def review_update(request, id):
 
     return render(request, 'blog/review_update.html', context=context)
 
+
+# User review view
 @login_required
 def review_view(request):
     formReview = forms.ReviewForm()
@@ -139,6 +154,7 @@ def review_view(request):
     return render(request, 'blog/create_review.html', context=context)
 
 
+# Review respose view
 @login_required
 def review_response_view(request, id):
     ticket = Ticket.objects.get(id=id)
@@ -151,13 +167,15 @@ def review_response_view(request, id):
             review.save()
             return redirect('home')
     else:
-        formReview = forms.ReviewForm()          
+        formReview = forms.ReviewForm()
     context = {
         'formReview': formReview,
         'ticket': ticket,
-}
+        }
     return render(request, 'blog/create_review_response.html', context=context)
 
+
+# Abonnements view
 @login_required
 def abonnements_view(request):
     user = request.user
@@ -171,7 +189,7 @@ def abonnements_view(request):
             username = form.cleaned_data['username']
             # Import model user
             User = get_user_model()
-            userResults = User.objects.filter(username=username).first()  # Utilisez "first()" au lieu de "get()"
+            userResults = User.objects.filter(username=username).first()
             if userResults:
                 # check if user is followed yet
                 for element in userFollowing:
@@ -203,6 +221,8 @@ def abonnements_view(request):
     }
     return render(request, 'blog/abonnements.html', context=context)
 
+
+# desbonnements view
 @login_required
 def desabonnements_view(request, id):
     userFollowing = UserFollows.objects.get(id=id)

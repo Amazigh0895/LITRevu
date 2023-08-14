@@ -10,7 +10,7 @@ class User(AbstractUser):
 
 
 class Ticket(models.Model):
-    # Your Ticket model definition goes here
+    # Ticket model definition 
     title = models.CharField(max_length=128)
     description = models.TextField(max_length=2048, blank=True)
     user = models.ForeignKey(to=User, on_delete=models.CASCADE)
@@ -19,6 +19,7 @@ class Ticket(models.Model):
 
 
 class Review(models.Model):
+    # Review model definition 
     ticket = models.ForeignKey(to=Ticket, on_delete=models.CASCADE)
     rating = models.PositiveSmallIntegerField(
         # validates that rating must be between 0 and 5
@@ -32,8 +33,10 @@ class Review(models.Model):
 
 class UserFollows(models.Model):
     # Your UserFollows model definition goes here
-    user = models.ForeignKey(to=User, on_delete=models.CASCADE, related_name='following')
-    followed_user = models.ForeignKey(to=User, on_delete=models.CASCADE, related_name='followed_by')
+    user = models.ForeignKey(to=User, on_delete=models.CASCADE,
+                             related_name='following')
+    followed_user = models.ForeignKey(to=User, on_delete=models.CASCADE,
+                                      related_name='followed_by')
 
     class Meta:
         # ensures we don't get multiple UserFollows instances
