@@ -17,6 +17,9 @@ class Ticket(models.Model):
     image = models.ImageField(null=True, blank=True)
     time_created = models.DateTimeField(auto_now_add=True)
 
+    def get_object_type(self):
+        return "Ticket"
+
 
 class Review(models.Model):
     # Review model definition 
@@ -29,6 +32,9 @@ class Review(models.Model):
     user = models.ForeignKey(
         to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     time_created = models.DateTimeField(auto_now_add=True)
+
+    def get_object_type(self):
+        return "Review"
 
 
 class UserFollows(models.Model):
