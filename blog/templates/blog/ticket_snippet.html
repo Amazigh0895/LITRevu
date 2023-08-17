@@ -1,0 +1,24 @@
+<div class="d-grid gap-2 col-6 mx-auto">
+    <div class="card text-center" style="max-width: 540px; background:#fff9fe4d;" >
+        <div class="card-header">
+        Demande de critique par {{ val.user }}
+        </div>
+        <div class="card-body --bs-primary-border-subtle">
+            <h5 class="card-title">{{ val.title }}</h5>
+            <p class="card-text">{{ val.description }}</p>
+            {% if val.image.url is not None %}
+                <img src="{{ val.image.url }}" class="card-img" style="max-width: 200px;"  alt="...">
+            {% endif %}
+        </div>
+        <a href="{% url 'create-review-response' val.id %}" class="btn btn-info" style="
+            margin-left: 170px;
+            margin-right: 170px;
+            margin-bottom: 15px;
+            "
+        >Créer une critique</a>
+        <div class="card-footer text-body-secondary">
+            updated at {{ val.time_created }} by {{ val.user }}
+        </div>
+    </div>
+</div>
+<br>
