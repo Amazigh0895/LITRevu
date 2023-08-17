@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from itertools import chain
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from authentification.models import Ticket, Review, UserFollows
@@ -11,28 +12,46 @@ from . import forms
 def home(request):
     # Get authenticated user
     user = request.user
+    posts = []
 
-    reviews = []
-    tickets = []
-    # Get users following
+    # Get all users following
     userFollowing = UserFollows.objects.filter(user=user)
-    # Get review user
-    review = Review.objects.filter(user=user)
 
+    # Get user review (the current user)
     userReview = Review.objects.filter(user=user)
-    userTicket = Ticket.objects.filter(user=user).exclude(review__in=review)
-    reviews.append(userReview)
-    tickets.append(userTicket)
+
+    # Get only user Ticket (the current user)
+    userTicket = Ticket.objects.filter(
+        user=user).exclude(review__in=userReview)
+
+    # Add the current user posts
+    reviews = {user.id: userReview}
+    tickets = {user.id: userTicket}
+
+    # Add the following users posts
     for element in userFollowing:
-        review = Review.objects.filter(user=element.followed_user)
-        ticket = Ticket.objects.filter(user=element.followed_user).exclude(
-            review__in=review)
-        reviews.append(review)
-        tickets.append(ticket)
+        if element.followed_user:
+            followed_user_id = element.followed_user.id
+            review = Review.objects.filter(user=followed_user_id)
+            ticket = Ticket.objects.filter(user=followed_user_id).exclude(
+                review__in=userReview)
+            reviews[followed_user_id] = review
+            tickets[followed_user_id] = ticket
+
+    review_ids = [review.id for reviews_list in reviews.values()
+                  for review in reviews_list]
+    ticket_ids = [ticket.id for tickets_list in tickets.values()
+                  for ticket in tickets_list]
+
+    # Fetch all reviews and tickets with a single query
+    all_reviews = Review.objects.filter(id__in=review_ids)
+    all_tickets = Ticket.objects.filter(id__in=ticket_ids)
+
+    posts = sorted(chain(all_reviews, all_tickets),
+                   key=lambda instance: instance.time_created, reverse=True)
 
     context = {
-        'tickets': tickets,
-        'reviews': reviews,
+        'posts': posts,
     }
     return render(request, 'blog/home.html', context=context)
 
@@ -234,3 +253,4 @@ def desabonnements_view(request, id):
         'userFollowing': userFollowing,
     }
     return render(request, 'blog/desabonnements.html', context=context)
+
