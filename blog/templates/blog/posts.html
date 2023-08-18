@@ -40,7 +40,9 @@
         <div class="card-body --bs-primary-border-subtle">
             <h5 class="card-title">{{ ticket.title }}</h5>
             <p class="card-text">{{ ticket.description }}</p>
+            {% if ticket.image.url is not None %}
             <img src="{{ ticket.image.url }}" class="card-img" style="max-width: 200px;"  alt="...">
+            {% endif %}
         </div>
         <div class="btn-group" role="group" aria-label="Basic mixed styles example">
             <a class="btn btn-warning" href="{% url 'ticket-update' ticket.id    %}" role="button">Modifier</a>
