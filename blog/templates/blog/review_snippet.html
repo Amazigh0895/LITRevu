@@ -12,7 +12,7 @@
             <h5 class="card-title">{{ val.ticket.title }}</h5>
             <p class="card-text">{{ val.ticket.description }}</p>
             {% if val.ticket.image.url is not None %}
-                <img src="{{ val.ticket.image.url }}" class="card-img" style="max-width: 200px;"  alt="...">
+                <img src="{{ val.ticket.image.url }}" class="card-img" style="max-width: 200px;" title="{{ val.ticket.title }}" alt="...">
             {% endif %}
         </div>
         <a href="{% url 'create-review-response' val.ticket.id %}" class="btn btn-info" style="
