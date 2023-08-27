@@ -169,7 +169,7 @@ def review_view(request):
     context = {
         'formReview': formReview,
         'formTicket': formTicket,
-}
+        }
     return render(request, 'blog/create_review.html', context=context)
 
 
@@ -253,4 +253,3 @@ def desabonnements_view(request, id):
         'userFollowing': userFollowing,
     }
     return render(request, 'blog/desabonnements.html', context=context)
-
