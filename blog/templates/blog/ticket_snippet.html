@@ -10,12 +10,14 @@
                 <img src="{{ val.image.url }}" class="card-img" style="max-width: 200px;" title="{{ val.title }}"  alt="...">
             {% endif %}
         </div>
+        {% if not user in val.review_set.all %}
         <a href="{% url 'create-review-response' val.id %}" class="btn btn-info" style="
             margin-left: 170px;
             margin-right: 170px;
             margin-bottom: 15px;
             "
         >Créer une critique</a>
+        {% endif %}
         <div class="card-footer text-body-secondary">
             updated at {{ val.time_created }} by {{ val.user }}
         </div>
