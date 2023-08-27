@@ -23,10 +23,11 @@ def home(request):
     # Get only user Ticket (the current user)
     userTicket = Ticket.objects.filter(
         user=user).exclude(review__in=userReview)
-
+    userTicketReviews = Review.objects.filter(ticket__in=userTicket)
     # Add the current user posts
     reviews = {user.id: userReview}
     tickets = {user.id: userTicket}
+    ticketsReviews = {user.id: userTicketReviews}
 
     # Add the following users posts
     for element in userFollowing:
@@ -40,6 +41,8 @@ def home(request):
 
     review_ids = [review.id for reviews_list in reviews.values()
                   for review in reviews_list]
+    review_ids = [review.id for ticketsReviews_list in ticketsReviews.values()
+                  for review in ticketsReviews_list]
     ticket_ids = [ticket.id for tickets_list in tickets.values()
                   for ticket in tickets_list]
 
